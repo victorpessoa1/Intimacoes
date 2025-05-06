@@ -8,11 +8,22 @@ datasource db {
 }
 
 model Colaborador {
-  uuid    String    @id @default(uuid())
-  nome    String
-  CPF     String @unique
-  email   String @unique
-
+  uuid       String   @id @default(uuid())
+  nome       String
+  CPF        String   @unique
+  email      String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  login      Login?
+}
+
+model Login {
+  colaborador_uuid String      @id
+  autorizado       Boolean
+  email            String      @unique
+  senha            String
+  acesso           String
+  created_at       DateTime    @default(now())
+  updated_at       DateTime    @updatedAt
+  colaborador      Colaborador @relation(fields: [colaborador_uuid], references: [uuid], onDelete: Cascade)
 }
